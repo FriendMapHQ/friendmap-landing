@@ -163,8 +163,12 @@
       display: flex; gap: 18px;
       padding: 20px 0;
       border-bottom: 1px solid var(--border);
+      flex-direction: column;
     }
     .step-row:last-child { border-bottom: none; }
+    .step-header {
+      display: flex; gap: 18px; align-items: flex-start;
+    }
     .step-num {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 800; font-size: 1.25rem;
@@ -178,6 +182,54 @@
       margin-bottom: 4px;
     }
     .step-text p { color: var(--ink-mid); font-size: 0.9375rem; }
+
+    /* Step screenshots */
+    .step-screenshot {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .step-screenshot img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.10);
+      display: block;
+    }
+
+    /* ON THE DAY / AFTER sections */
+    .story-section {
+      padding: 64px 0;
+      border-top: 1px solid var(--border);
+    }
+    .story-section h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.5rem, 5vw, 1.9rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .story-section .story-sub {
+      color: var(--ink-mid);
+      font-size: 1.0625rem;
+      margin-bottom: 24px;
+    }
+    .story-section p {
+      color: var(--ink-mid);
+      font-size: 0.9375rem;
+      margin-top: 20px;
+    }
+    .story-screenshot {
+      display: flex;
+      justify-content: center;
+    }
+    .story-screenshot img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.10);
+      display: block;
+    }
 
     /* ANDROID */
     .android {
@@ -249,6 +301,48 @@
       .fade { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
       .fade.visible { opacity: 1; transform: translateY(0); }
     }
+
+    /* Desktop: alternate screenshots left/right */
+    @media (min-width: 640px) {
+      .step-row.has-screenshot {
+        flex-direction: row;
+        align-items: center;
+        gap: 32px;
+      }
+      .step-row.has-screenshot .step-main {
+        flex: 1;
+      }
+      .step-row.has-screenshot .step-screenshot {
+        flex: 1;
+        margin-top: 0;
+        justify-content: flex-end;
+      }
+      .step-row.has-screenshot.flip {
+        flex-direction: row-reverse;
+      }
+      .step-row.has-screenshot.flip .step-screenshot {
+        justify-content: flex-start;
+      }
+      .story-section .story-inner {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+      }
+      .story-section .story-inner.flip {
+        flex-direction: row-reverse;
+      }
+      .story-section .story-text {
+        flex: 1;
+      }
+      .story-section .story-screenshot {
+        flex: 1;
+        justify-content: flex-end;
+      }
+      .story-section .story-inner.flip .story-screenshot {
+        justify-content: flex-start;
+      }
+      .story-section h2 { margin-bottom: 8px; }
+    }
   </style>
 </head>
 <body>
@@ -297,39 +391,107 @@
     <!-- HOW IT WORKS -->
     <section class="how fade">
       <h2>How it works</h2>
-      <div class="step-row">
-        <div class="step-num">1</div>
-        <div class="step-text">
-          <h3>Discover</h3>
-          <p>Browse local communities on a live map and find people nearby who share your interests.</p>
+
+      <!-- Step 1: Discover -->
+      <div class="step-row has-screenshot">
+        <div class="step-main">
+          <div class="step-header">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <h3>Discover</h3>
+              <p>Browse local communities on a live map and find people nearby who share your interests.</p>
+            </div>
+          </div>
+        </div>
+        <div class="step-screenshot">
+          <img src="phone-screenshot.png" alt="FriendMap map showing local communities" />
         </div>
       </div>
+
+      <!-- Step 2: Join & Chat -->
       <div class="step-row">
-        <div class="step-num">2</div>
-        <div class="step-text">
-          <h3>Join & Chat</h3>
-          <p>Join a community, chat with members, or create your own and grow it locally.</p>
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <h3>Join & Chat</h3>
+            <p>Join a community, chat with members, or create your own and grow it locally.</p>
+          </div>
         </div>
       </div>
-      <div class="step-row">
-        <div class="step-num">3</div>
-        <div class="step-text">
-          <h3>FriendMap Suggests</h3>
-          <p>Once a community reaches 3 members, FriendMap automatically suggests a simple meetup — like coffee, a walk, or something that fits the community.</p>
+
+      <!-- Step 3: FriendMap Suggests -->
+      <div class="step-row has-screenshot flip">
+        <div class="step-main">
+          <div class="step-header">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <h3>FriendMap Suggests</h3>
+              <p>Once a community reaches 3 members, FriendMap automatically suggests a casual meetup — like coffee, a walk, or something that fits the group. Nobody has to organise a thing.</p>
+            </div>
+          </div>
+        </div>
+        <div class="step-screenshot">
+          <img src="Suggestion_Phase.png" alt="FriendMap meetup suggestion card" />
         </div>
       </div>
-      <div class="step-row">
-        <div class="step-num">4</div>
-        <div class="step-text">
-          <h3>Vote Together</h3>
-          <p>Everyone votes on the day, time and location. No one has to awkwardly organise everything themselves.</p>
+
+      <!-- Step 4: Vote Together -->
+      <div class="step-row has-screenshot">
+        <div class="step-main">
+          <div class="step-header">
+            <div class="step-num">4</div>
+            <div class="step-text">
+              <h3>Vote Together</h3>
+              <p>Everyone votes on the day, time, and a nearby location. The best option wins — no awkward back and forth, no group chat chaos.</p>
+            </div>
+          </div>
+        </div>
+        <div class="step-screenshot">
+          <img src="Venue_Vote_Phase.png" alt="FriendMap venue voting phase" />
         </div>
       </div>
-      <div class="step-row">
-        <div class="step-num">5</div>
-        <div class="step-text">
-          <h3>Meet Up</h3>
-          <p>On meetup day, let everyone know you're on your way or have arrived — making it easy for the whole group to find each other.</p>
+
+      <!-- Step 5: Meet Up -->
+      <div class="step-row has-screenshot flip">
+        <div class="step-main">
+          <div class="step-header">
+            <div class="step-num">5</div>
+            <div class="step-text">
+              <h3>Meet Up</h3>
+              <p>Once voting is done, FriendMap confirms the meetup automatically — day, time and place, all locked in. Just show up.</p>
+            </div>
+          </div>
+        </div>
+        <div class="step-screenshot">
+          <img src="Completed_Phase.png" alt="FriendMap meetup confirmed" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ON THE DAY -->
+    <section class="story-section fade">
+      <div class="story-inner">
+        <div class="story-text">
+          <h2>On the day of the meetup</h2>
+          <p class="story-sub">Everyone can share their live status so nobody wonders who's coming.</p>
+          <p>Members tap to update whether they haven't left yet, are on the way, or have already arrived — so the whole group knows what to expect before anyone walks in the door.</p>
+        </div>
+        <div class="story-screenshot">
+          <img src="Completed_Today_Phase.png" alt="FriendMap who's on the way status" />
+        </div>
+      </div>
+    </section>
+
+    <!-- AFTER THE MEETUP -->
+    <section class="story-section fade">
+      <div class="story-inner flip">
+        <div class="story-text">
+          <h2>After the meetup</h2>
+          <p class="story-sub">Meetups stay in the community history so everyone can look back and look forward to the next one.</p>
+          <p>The whole journey — suggestion, votes, meetup — lives in the community chat. A new suggestion is automatically posted the following week, so the momentum never stops.</p>
+        </div>
+        <div class="story-screenshot">
+          <img src="Completed_Ended_Phase.png" alt="FriendMap completed meetup" />
         </div>
       </div>
     </section>
@@ -362,17 +524,12 @@
         const msg = document.getElementById('testerMsg');
         const API_URL = 'https://friendmap-backend.onrender.com/tester-signup';
 
-        // ── Rate limiting ────────────────────────────────────────────────────
-        // Prevents someone (or a bot) from hammering the form repeatedly.
-        // Tracks submission attempts in sessionStorage — resets when the tab
-        // closes, so it doesn't permanently block legitimate users.
         const RATE_LIMIT_MAX = 3;
-        const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+        const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 
         function isRateLimited() {
           const now = Date.now();
           let attempts = JSON.parse(sessionStorage.getItem('fm_attempts') || '[]');
-          // Clear attempts older than the window
           attempts = attempts.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
           if (attempts.length >= RATE_LIMIT_MAX) return true;
           attempts.push(now);
@@ -380,7 +537,6 @@
           return false;
         }
 
-        // ── Disposable/throwaway email domain blocklist ───────────────────────
         const BLOCKED_DOMAINS = new Set([
           'mailinator.com', 'tempmail.com', 'guerrillamail.com', 'throwam.com',
           'sharklasers.com', 'guerrillamailblock.com', 'grr.la', 'guerrillamail.info',
@@ -389,82 +545,53 @@
           'throwaway.email', 'spamgourmet.net', 'mailnull.com', 'spamex.com',
           'mailnesia.com', 'discard.email', 'spam4.me', 'trashmail.at',
           'trashmail.io', 'tempinbox.com', 'getairmail.com', 'filzmail.com',
-          'throwam.com', 'spamhereplease.com', 'tempr.email', 'dispostable.com',
+          'spamhereplease.com', 'tempr.email',
         ]);
 
-        // ── Email validation ─────────────────────────────────────────────────
         function isValidEmail(email) {
           if (!email) return false;
-
           const parts = email.split('@');
           if (parts.length !== 2) return false;
-
           const local = parts[0];
           const domain = parts[1].toLowerCase();
-
-          // Must have at least one dot in the domain
           if (!domain.includes('.')) return false;
-
-          // Reject consecutive dots anywhere (Jo..hn or domain..com)
           if (/\.{2,}/.test(email)) return false;
-
-          // Reject dot at start or end of local part (.john@ or john.@)
           if (local.startsWith('.') || local.endsWith('.')) return false;
-
-          // Reject excessive dotting in local part (J.o.h.n.D.o.e pattern)
-          // More than 3 dots in the local part is suspicious
           if ((local.match(/\./g) || []).length > 3) return false;
-
-          // Reject local parts that are suspiciously short (single char)
           if (local.length < 2) return false;
-
-          // Reject disposable email domains
           if (BLOCKED_DOMAINS.has(domain)) return false;
-
-          // Basic format check
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
           if (!emailRegex.test(email)) return false;
-
           return true;
         }
 
-        // ── Submission timing check ──────────────────────────────────────────
-        // Real users take at least a couple of seconds to fill in the form.
-        // Bots often submit instantly. Track when the page loaded and reject
-        // submissions that come in under 2 seconds.
         const pageLoadTime = Date.now();
         const MIN_FILL_TIME_MS = 2000;
 
-        // ── Form submit handler ──────────────────────────────────────────────
         form.addEventListener('submit', async function (e) {
           e.preventDefault();
           const email = emailInput.value.trim();
           if (!email) return;
 
-          // 1. Honeypot check — bots fill hidden fields, real users don't
           if (honeypot && honeypot.value) {
-            // Silently succeed so bots don't know they were blocked
             msg.textContent = "Thanks! We'll add you as a tester shortly.";
             msg.className = 'tester-msg success';
             form.reset();
             return;
           }
 
-          // 2. Submission speed check — too fast = likely a bot
           if (Date.now() - pageLoadTime < MIN_FILL_TIME_MS) {
             msg.textContent = "Please try again.";
             msg.className = 'tester-msg error';
             return;
           }
 
-          // 3. Rate limiting
           if (isRateLimited()) {
             msg.textContent = 'Too many attempts. Please wait a minute before trying again.';
             msg.className = 'tester-msg error';
             return;
           }
 
-          // 4. Email validation
           if (!isValidEmail(email)) {
             msg.textContent = 'Please enter a valid email address.';
             msg.className = 'tester-msg error';
