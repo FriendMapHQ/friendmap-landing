@@ -58,8 +58,9 @@
     .perk svg { width: 30px; height: 30px; margin: 0 auto 8px; display: block; stroke: var(--ink); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .perk svg .fill { fill: var(--yellow); }
     .hero-art { position: relative; width: 100%; max-width: 420px; aspect-ratio: 1 / 1.08; display: flex; align-items: center; justify-content: center; }
-    /* A streak of paint sweeping in from the right edge of the page */
-    .hero-art .blob { position: absolute; top: 6%; left: -4%; width: 170%; height: 88%; }
+    /* Phones: behind the phone at the bottom; desktop: down the right side */
+    .swoosh { position: absolute; right: 0; bottom: 0; width: 86vw; height: 42%; }
+    .hero-grid { position: relative; z-index: 1; }
     .hero-art img { position: relative; width: 62%; border-radius: 30px; transform: rotate(7deg); box-shadow: 0 30px 60px rgba(60,40,0,0.22); }
 
     .wave { display: block; width: 100%; height: 60px; }
@@ -142,6 +143,7 @@
     @media (min-width: 900px) {
       .wrap { padding: 0 40px; }
       .hero { padding: 36px 0 30px; }
+      .swoosh { top: 0; bottom: auto; width: 44vw; height: 100%; }
       .hero-grid { flex-direction: row; justify-content: space-between; }
       .hero-text { flex: 1; }
       .hero-art { flex: 0 0 440px; max-width: 440px; }
@@ -185,6 +187,10 @@
 
   <!-- HERO -->
   <section class="hero">
+    <!-- The big yellow swoosh coming in from the right edge, behind the phone -->
+    <svg class="swoosh" viewBox="0 0 480 440" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M480 0C432 6 392 22 344 52C256 106 156 164 86 232C32 284 8 334 36 372C66 412 138 428 232 430C326 432 404 420 480 408Z" fill="#F7CD4A"/>
+    </svg>
     <div class="wrap hero-grid">
       <div class="hero-text">
         <svg class="sparkle l"><use href="#sparkle"/></svg>
@@ -218,14 +224,6 @@
       </div>
 
       <div class="hero-art">
-        <svg class="blob" viewBox="0 0 700 420" preserveAspectRatio="none" aria-hidden="true">
-          <g fill="#F7CD4A">
-            <path d="M700 0V420C610 414 520 402 420 384C320 366 220 342 140 318C96 305 58 294 34 280C18 270 22 256 44 248C80 236 130 232 178 216C250 192 300 150 352 108C414 58 500 22 600 6C640 0 672 -2 700 0Z"/>
-            <!-- Loose bristle marks where the stroke starts -->
-            <path d="M118 332C82 324 46 314 24 302C14 296 18 290 30 292C60 298 96 310 124 322C132 326 128 334 118 332Z"/>
-            <path d="M96 236C70 240 44 244 26 246C16 247 16 240 26 238C46 233 74 229 98 228C106 228 104 235 96 236Z"/>
-          </g>
-        </svg>
         <img src="phone-screenshot.png" alt="The FriendMap map showing communities around Carlow" />
       </div>
     </div>
