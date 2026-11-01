@@ -58,7 +58,8 @@
     .perk svg { width: 30px; height: 30px; margin: 0 auto 8px; display: block; stroke: var(--ink); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .perk svg .fill { fill: var(--yellow); }
     .hero-art { position: relative; width: 100%; max-width: 420px; aspect-ratio: 1 / 1.08; display: flex; align-items: center; justify-content: center; }
-    .hero-art .blob { position: absolute; inset: 4% -8% 0 4%; width: 104%; height: 96%; }
+    /* A streak of paint sweeping in from the right edge of the page */
+    .hero-art .blob { position: absolute; top: 6%; left: -4%; width: 170%; height: 88%; }
     .hero-art img { position: relative; width: 62%; border-radius: 30px; transform: rotate(7deg); box-shadow: 0 30px 60px rgba(60,40,0,0.22); }
 
     .wave { display: block; width: 100%; height: 60px; }
@@ -217,7 +218,14 @@
       </div>
 
       <div class="hero-art">
-        <svg class="blob" viewBox="0 0 400 420" preserveAspectRatio="none" aria-hidden="true"><path d="M150 18C250-8 370 30 392 140c22 110-8 240-110 272C180 444 40 410 12 300-16 190 50 44 150 18z" fill="#F7CD4A"/></svg>
+        <svg class="blob" viewBox="0 0 700 420" preserveAspectRatio="none" aria-hidden="true">
+          <g fill="#F7CD4A">
+            <path d="M700 0V420C610 414 520 402 420 384C320 366 220 342 140 318C96 305 58 294 34 280C18 270 22 256 44 248C80 236 130 232 178 216C250 192 300 150 352 108C414 58 500 22 600 6C640 0 672 -2 700 0Z"/>
+            <!-- Loose bristle marks where the stroke starts -->
+            <path d="M118 332C82 324 46 314 24 302C14 296 18 290 30 292C60 298 96 310 124 322C132 326 128 334 118 332Z"/>
+            <path d="M96 236C70 240 44 244 26 246C16 247 16 240 26 238C46 233 74 229 98 228C106 228 104 235 96 236Z"/>
+          </g>
+        </svg>
         <img src="phone-screenshot.png" alt="The FriendMap map showing communities around Carlow" />
       </div>
     </div>
