@@ -77,7 +77,8 @@
     .mission-photo { position: relative; }
     /* A wobbly "puddle" outline (the #puddle clip path below) */
     .mission-photo img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; clip-path: url(#puddle); }
-    .mission-photo .sparkle { left: -8px; top: -26px; transform: scaleX(-1) rotate(-20deg); }
+    /* Fanning out away from the photo's top-right corner */
+    .mission-photo .sparkle { right: -14px; top: -30px; transform: rotate(-20deg) scaleX(-1); }
 
     /* HOW IT WORKS */
     .how { padding: 64px 0 72px; }
