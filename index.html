@@ -7,483 +7,335 @@
   <title>FriendMap — Find Your People Nearby</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- The yellow sparkle strokes and the soft wave are the same ones as on
+       the printed QR codes (FriendMapMobile utils/venuePoster.js) -->
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --yellow: #F7CD4A;
-      --ink: #15161D;
-      --ink-mid: #5A5C6E;
-      --surface: #FFFFFF;
-      --border: #ECECF1;
+      --yellow: #F7CD4A; --yellow-soft: #FFF3C9; --cream: #FFFBF0; --cream-deep: #FFF6DD;
+      --ink: #15161D; --ink-mid: #4F5163; --border: #F0E6C8;
     }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      color: var(--ink);
-      background: var(--surface);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .wrap { max-width: 600px; margin: 0 auto; padding: 0 28px; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--ink); background: var(--cream); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    img { display: block; max-width: 100%; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+    h1, h2, h3, .brand { font-family: 'Plus Jakarta Sans', sans-serif; }
+    section { position: relative; scroll-margin-top: 20px; }
+    .sparkle { position: absolute; width: 34px; height: 54px; pointer-events: none; }
 
     /* NAV */
-    nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 24px 28px;
-      max-width: 600px; margin: 0 auto;
-    }
-    .logo {
-      display: flex; align-items: center; gap: 8px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 800; font-size: 1rem; color: var(--ink);
-      text-decoration: none;
-    }
-    .logo img { width: 28px; height: 28px; border-radius: 8px; display: block; }
-    .nav-link {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700; font-size: 0.875rem; color: var(--ink-mid);
-      text-decoration: none;
-    }
-    .nav-link:hover { color: var(--ink); }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 18px; padding-bottom: 18px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+    .logo img { width: 40px; height: 40px; border-radius: 11px; }
+    .logo span { font-weight: 800; font-size: 1.45rem; letter-spacing: -0.02em; }
+    .nav-links { display: flex; align-items: center; gap: 26px; }
+    .nav-links a { color: var(--ink); text-decoration: none; font-size: 0.925rem; font-weight: 600; white-space: nowrap; }
+    .nav-links a.nav-btn { background: var(--yellow); padding: 10px 18px; border-radius: 999px; }
+    .nav-links a:not(.nav-btn):hover { color: var(--ink-mid); }
+
+    /* STORE BUTTONS */
+    .stores { display: flex; flex-wrap: wrap; gap: 14px; }
+    .store { display: inline-flex; align-items: center; gap: 12px; background: var(--yellow); color: var(--ink); text-decoration: none; padding: 12px 26px 12px 22px; border-radius: 999px; transition: transform 0.15s ease; }
+    .store:active { transform: scale(0.97); }
+    .store svg { width: 26px; height: 26px; flex-shrink: 0; }
+    .store small { display: block; font-size: 0.7rem; font-weight: 500; line-height: 1.2; }
+    .store b { display: block; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem; font-weight: 800; line-height: 1.15; }
+    .store--light { background: #fff; }
 
     /* HERO */
-    .hero {
-      text-align: center;
-      padding: 48px 0 56px;
-    }
-    .hero h1 {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 800;
-      font-size: clamp(2rem, 7vw, 2.6rem);
-      line-height: 1.18;
-      letter-spacing: -0.025em;
-      margin-bottom: 18px;
-    }
-    .hero h1 span {
-      background: var(--yellow);
-      padding: 0 6px;
-      border-radius: 6px;
-      box-decoration-break: clone;
-      -webkit-box-decoration-break: clone;
-    }
-    .hero p {
-      color: var(--ink-mid);
-      font-size: 1.0625rem;
-      max-width: 420px;
-      margin: 0 auto 18px;
-    }
-    .hero-mechanism {
-      font-size: 0.9rem !important;
-      color: var(--ink-mid);
-      opacity: 0.75;
-      max-width: 380px;
-      margin: 0 auto 32px !important;
-    }
-    .btns {
-      display: flex; flex-direction: column; gap: 12px;
-      align-items: center;
-    }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      width: 100%; max-width: 300px;
-      padding: 15px 20px;
-      border-radius: 100px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700; font-size: 0.95rem;
-      text-decoration: none;
-      transition: transform 0.15s ease;
-    }
-    .btn:active { transform: scale(0.97); }
-    .btn-dark { background: var(--ink); color: white; }
-    .btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--border); }
+    .hero { padding: 28px 0 40px; }
+    .hero-grid { display: flex; flex-direction: column; align-items: center; gap: 36px; }
+    .hero-text { text-align: center; position: relative; max-width: 560px; }
+    .hero h1 { font-size: clamp(3rem, 13vw, 5.2rem); font-weight: 800; line-height: 1; letter-spacing: -0.035em; margin-bottom: 22px; }
+    .hero-text > p { font-size: 1.15rem; color: var(--ink); max-width: 440px; margin: 0 auto 28px; }
+    .hero .stores { justify-content: center; }
+    .hero-text .sparkle.l { left: -6px; top: -4px; transform: scaleX(-1) rotate(-10deg); }
+    .hero-text .sparkle.r { right: -6px; top: -4px; transform: rotate(-10deg); }
+    .perks { display: flex; justify-content: center; margin-top: 34px; }
+    .perk { flex: 1; max-width: 150px; padding: 0 10px; text-align: center; font-size: 0.9rem; font-weight: 500; line-height: 1.35; }
+    .perk + .perk { border-left: 1.5px solid var(--border); }
+    .perk svg { width: 30px; height: 30px; margin: 0 auto 8px; display: block; stroke: var(--ink); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .perk svg .fill { fill: var(--yellow); }
+    .hero-art { position: relative; width: 100%; max-width: 420px; aspect-ratio: 1 / 1.08; display: flex; align-items: center; justify-content: center; }
+    .hero-art .blob { position: absolute; inset: 4% -8% 0 4%; width: 104%; height: 96%; }
+    .hero-art img { position: relative; width: 62%; border-radius: 30px; transform: rotate(7deg); box-shadow: 0 30px 60px rgba(60,40,0,0.22); }
+    .hero-art .sparkle { right: -4px; top: 22%; transform: rotate(10deg); }
 
-    /* PHONE */
-    .phone-wrap {
-      display: flex; justify-content: center;
-      margin-top: 48px;
-    }
-    .phone-wrap img {
-      width: 100%; max-width: 280px;
-      border-radius: 32px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.14);
-      display: block;
-    }
+    .wave { display: block; width: 100%; height: 60px; }
 
-    /* WHY */
-    .why {
-      padding: 64px 0;
-      border-top: 1px solid var(--border);
-    }
-    .why-eyebrow {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700; font-size: 0.75rem;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--ink-mid); opacity: 0.6;
-      margin-bottom: 16px;
-    }
-    .why h2 {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 800;
-      font-size: clamp(1.5rem, 5vw, 1.9rem);
-      line-height: 1.3;
-      letter-spacing: -0.02em;
-      margin-bottom: 20px;
-    }
-    .why p {
-      color: var(--ink-mid);
-      font-size: 1.0625rem;
-      margin-bottom: 16px;
-    }
-    .why p strong { color: var(--ink); font-weight: 600; }
-
-    .founder-row {
-      display: flex; align-items: center; gap: 14px;
-      margin-top: 28px;
-    }
-    .founder-row img {
-      width: 44px; height: 44px; border-radius: 50%;
-      object-fit: cover; object-position: center top;
-    }
-    .founder-name {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700; font-size: 0.9rem;
-    }
-    .founder-role { color: var(--ink-mid); font-size: 0.825rem; }
+    /* MISSION */
+    .mission { background: var(--cream-deep); padding: 40px 0 64px; }
+    .mission-grid { display: flex; flex-direction: column; gap: 40px; }
+    .eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 10px; }
+    .mission h2 { font-size: clamp(1.7rem, 6vw, 2.3rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 18px; }
+    .mission p { color: var(--ink-mid); font-size: 1.0625rem; margin-bottom: 14px; }
+    .founder { display: flex; align-items: center; gap: 14px; margin-top: 24px; }
+    .founder img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; object-position: center top; }
+    .founder b { display: block; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; }
+    .founder span { color: var(--ink-mid); font-size: 0.85rem; }
+    .mission-photo { position: relative; }
+    .mission-photo img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 42% 58% 46% 54% / 18% 22% 20% 24%; }
+    .mission-photo .sparkle { right: -8px; top: -26px; transform: rotate(-20deg); }
 
     /* HOW IT WORKS */
-    .how {
-      padding: 64px 0;
-      border-top: 1px solid var(--border);
-    }
-    .how h2 {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 800;
-      font-size: clamp(1.5rem, 5vw, 1.9rem);
-      letter-spacing: -0.02em;
-      margin-bottom: 32px;
-    }
-    .step-row {
-      display: flex; gap: 18px;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--border);
-      flex-direction: column;
-    }
-    .step-row:last-child { border-bottom: none; }
-    .step-header {
-      display: flex; gap: 18px; align-items: flex-start;
-    }
-    .step-num {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 800; font-size: 1.25rem;
-      color: var(--yellow);
-      flex-shrink: 0;
-      width: 32px;
-    }
-    .step-text h3 {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700; font-size: 1.0625rem;
-      margin-bottom: 4px;
-    }
-    .step-text p { color: var(--ink-mid); font-size: 0.9375rem; }
+    .how { padding: 64px 0 72px; }
+    .how-head { display: flex; justify-content: center; align-items: center; gap: 18px; margin-bottom: 40px; }
+    .how-head h2 { font-size: clamp(1.9rem, 6vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; }
+    .how-head .sparkle { position: static; }
+    .how-head .sparkle.l { transform: scaleX(-1); }
+    /* Phones: the steps scroll sideways, so the section stays short */
+    .steps { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 14px 20px 18px; margin: 0 -20px; scrollbar-width: none; }
+    .steps::-webkit-scrollbar { display: none; }
+    .step { position: relative; flex: 0 0 76%; scroll-snap-align: center; background: #fff; border: 1.5px solid var(--border); border-radius: 20px; padding: 30px 18px 22px; text-align: center; display: flex; flex-direction: column; }
+    .step-num { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); width: 30px; height: 30px; border-radius: 50%; background: var(--yellow); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; }
+    .step h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
+    .step p { color: var(--ink-mid); font-size: 0.9rem; line-height: 1.5; }
+    .step-visual { margin-top: auto; padding-top: 20px; min-height: 120px; display: flex; align-items: center; justify-content: center; position: relative; }
+    .swipe-hint { text-align: center; color: var(--ink-mid); font-size: 0.85rem; margin-top: 6px; }
 
-    /* Step screenshots */
-    .step-screenshot {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-    }
-    .step-screenshot img {
-      width: 100%;
-      max-width: 280px;
-      border-radius: 32px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.14);
-      display: block;
-    }
+    .mini-map { width: 100%; max-width: 170px; height: 100px; border-radius: 14px; background: #E4F2E2; position: relative; overflow: hidden; }
+    .mini-map::before { content: ''; position: absolute; left: -10%; top: 55%; width: 120%; height: 10px; background: #fff; transform: rotate(-14deg); opacity: 0.9; }
+    .mini-map::after { content: ''; position: absolute; left: 30%; top: -10%; width: 12px; height: 130%; background: #BFE0F5; transform: rotate(18deg); }
+    .mini-map svg { position: absolute; width: 22px; height: 30px; z-index: 1; }
+    .create-btn { background: #43A047; color: #fff; font-weight: 700; font-size: 0.85rem; padding: 10px 18px; border-radius: 999px; box-shadow: 0 6px 14px rgba(67,160,71,0.3); }
+    .cursor { position: absolute; width: 22px; height: 22px; right: 18%; bottom: 8px; }
+    .coffee-card { background: #fff; border-radius: 14px; box-shadow: 0 8px 22px rgba(0,0,0,0.10); padding: 12px 14px; display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.85rem; }
+    .coffee-card span { font-size: 1.5rem; }
+    .vote { display: flex; gap: 8px; }
+    .vote span { padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; border: 1.5px solid var(--border); background: #fff; }
+    .vote span.on { background: var(--yellow); border-color: #E5B82F; }
+    .high-five { width: 120px; height: 92px; }
+    .step-visual .sparkle { width: 20px; height: 32px; }
 
-    /* ON THE DAY / AFTER sections */
-    .story-section {
-      padding: 64px 0;
-      border-top: 1px solid var(--border);
-    }
-    .story-section h2 {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 800;
-      font-size: clamp(1.5rem, 5vw, 1.9rem);
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-    }
-    .story-section .story-sub {
-      color: var(--ink-mid);
-      font-size: 1.0625rem;
-      margin-bottom: 24px;
-    }
-    .story-section p {
-      color: var(--ink-mid);
-      font-size: 0.9375rem;
-      margin-top: 20px;
-    }
-    .story-screenshot {
-      display: flex;
-      justify-content: center;
-      margin-top: 32px;
-    }
-    .story-screenshot img {
-      width: 100%;
-      max-width: 280px;
-      border-radius: 32px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.14);
-      display: block;
-    }
+    /* DOWNLOAD */
+    .download { background: var(--yellow); padding: 40px 0 64px; text-align: center; }
+    .download-wave { display: block; width: 100%; height: 60px; background: var(--cream); }
+    .lockup { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+    .lockup img { width: 64px; height: 64px; border-radius: 16px; box-shadow: 0 0 0 3px #fff; }
+    .lockup span { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(2.2rem, 8vw, 3rem); letter-spacing: -0.03em; }
+    .download p { font-size: 1.15rem; font-weight: 500; margin-bottom: 26px; }
+    .download .stores { justify-content: center; }
+    .download .sparkle { right: 8%; top: 10px; transform: rotate(10deg); }
+    .download .sparkle path, .download .sparkle line { stroke: #fff; }
 
     /* FOOTER */
-    footer {
-      padding: 32px 0 48px;
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-    .footer-links {
-      display: flex; justify-content: center; gap: 20px;
-      margin-bottom: 16px; flex-wrap: wrap;
-    }
-    .footer-links a {
-      color: var(--ink-mid); text-decoration: none;
-      font-size: 0.85rem;
-    }
-    .footer-links a:hover { color: var(--ink); }
-    .footer-copy { color: var(--ink-mid); opacity: 0.6; font-size: 0.8rem; }
+    footer { padding: 28px 0 40px; text-align: center; }
+    .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 0; margin-bottom: 10px; }
+    .footer-links a { color: var(--ink); text-decoration: none; font-size: 0.875rem; padding: 0 16px; }
+    .footer-links a + a { border-left: 1.5px solid var(--border); }
+    .footer-links a:hover { color: var(--ink-mid); }
+    .footer-copy { color: var(--ink-mid); font-size: 0.8rem; }
 
-    @media (prefers-reduced-motion: no-preference) {
-      .fade { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
-      .fade.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 640px) {
+      .nav-links a:not(.nav-btn):not(.keep) { display: none; }
+      .nav-links { gap: 16px; }
+      .logo span { font-size: 1.2rem; }
+      .logo img { width: 34px; height: 34px; }
     }
 
-    /* Desktop: alternate screenshots left/right */
-    @media (min-width: 640px) {
-      .step-row.has-screenshot {
-        flex-direction: row;
-        align-items: center;
-        gap: 32px;
-      }
-      .step-row.has-screenshot .step-main {
-        flex: 1;
-      }
-      .step-row.has-screenshot .step-screenshot {
-        flex: 1;
-        margin-top: 0;
-        justify-content: flex-end;
-      }
-      .step-row.has-screenshot.flip {
-        flex-direction: row-reverse;
-      }
-      .step-row.has-screenshot.flip .step-screenshot {
-        justify-content: flex-start;
-      }
-      .story-section .story-inner {
-        display: flex;
-        align-items: center;
-        gap: 40px;
-      }
-      .story-section .story-inner.flip {
-        flex-direction: row-reverse;
-      }
-      .story-section .story-text {
-        flex: 1;
-      }
-      .story-section .story-screenshot {
-        flex: 1;
-        margin-top: 0;
-        justify-content: flex-end;
-      }
-      .story-section .story-inner.flip .story-screenshot {
-        justify-content: flex-start;
-      }
-      .story-section h2 { margin-bottom: 8px; }
+    @media (min-width: 900px) {
+      .wrap { padding: 0 40px; }
+      .hero { padding: 36px 0 30px; }
+      .hero-grid { flex-direction: row; justify-content: space-between; }
+      .hero-text { flex: 1; }
+      .hero-art { flex: 0 0 440px; max-width: 440px; }
+      .mission-grid { flex-direction: row; align-items: center; gap: 64px; }
+      .mission-grid > * { flex: 1; }
+      .steps { overflow: visible; padding: 14px 0 0; margin: 0; gap: 26px; }
+      .step { flex: 1; }
+      /* A yellow arrow between the cards */
+      .step + .step::before { content: ''; position: absolute; left: -19px; top: 46%; width: 10px; height: 10px; border-top: 3px solid var(--yellow); border-right: 3px solid var(--yellow); transform: rotate(45deg); }
+      .swipe-hint { display: none; }
     }
   </style>
 </head>
 <body>
 
+  <!-- One sparkle, reused everywhere -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="sparkle" viewBox="0 0 20 32">
+      <g stroke="#F7CD4A" stroke-width="3" stroke-linecap="round"><line x1="16" y1="5" x2="7" y2="1"/><line x1="16" y1="16" x2="4" y2="16"/><line x1="16" y1="27" x2="7" y2="31"/></g>
+    </symbol>
+    <symbol id="pin" viewBox="0 0 24 32">
+      <path d="M12 30.5S22 19.8 22 12A10 10 0 0 0 2 12c0 7.8 10 18.5 10 18.5z" fill="#F7CD4A" stroke="#15161D" stroke-width="1.6"/>
+      <circle cx="12" cy="12" r="4.2" fill="#fff" stroke="#15161D" stroke-width="1.4"/>
+    </symbol>
+  </svg>
+
   <nav>
-    <a href="#" class="logo">
-      <img src="FriendMapLogo.jpeg" alt="FriendMap" />FriendMap
-    </a>
-    <a href="pro/" class="nav-link">For venues</a>
+    <div class="wrap">
+      <a href="#" class="logo"><img src="FriendMapLogo.jpeg" alt="" /><span>FriendMap</span></a>
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="pro/" class="keep">For venues</a>
+        <a href="#download" class="nav-btn">Download</a>
+      </div>
+    </div>
   </nav>
 
-  <div class="wrap">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <svg class="sparkle l"><use href="#sparkle"/></svg>
+        <svg class="sparkle r"><use href="#sparkle"/></svg>
+        <h1>Find your people here.</h1>
+        <p>Discover local communities on FriendMap and meet others who share your interests.</p>
+        <div class="stores">
+          <a class="store" href="https://apps.apple.com/app/id6762519026">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span><small>Download on the</small><b>App Store</b></span>
+          </a>
+          <a class="store" href="https://play.google.com/store/apps/details?id=com.friendmaphq.friendmap">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.2 2.3c-.3.3-.4.7-.4 1.2v17c0 .5.1.9.4 1.2l9.5-9.7zM14.8 13.1l2.8 2.8-11 6.3c-.4.2-.8.3-1.1.2zM18.9 9.2l2.4 1.4c.9.5.9 1.8 0 2.3l-2.5 1.4-3-3zM5.5 1.6c.3-.1.7 0 1.1.2l11 6.3-2.8 2.8z"/></svg>
+            <span><small>Get it on</small><b>Google Play</b></span>
+          </a>
+        </div>
+        <div class="perks">
+          <div class="perk">
+            <svg viewBox="0 0 32 32"><circle cx="11" cy="11" r="4" class="fill"/><circle cx="21" cy="11" r="4" class="fill"/><path d="M4 25c0-4 3-7 7-7s7 3 7 7M14 25c0-4 3-7 7-7s7 3 7 7" class="fill"/></svg>
+            Meet local people
+          </div>
+          <div class="perk">
+            <svg viewBox="0 0 32 32"><path d="M16 29s9-9.5 9-16a9 9 0 0 0-18 0c0 6.5 9 16 9 16z" class="fill"/><circle cx="16" cy="13" r="3.5" fill="#fff"/></svg>
+            Discover nearby communities
+          </div>
+          <div class="perk">
+            <svg viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="22" rx="4" class="fill"/><path d="M4 13h24M10 3v6M22 3v6"/><path d="M10 18h.01M16 18h.01M22 18h.01M10 23h.01M16 23h.01" stroke-width="3"/></svg>
+            Join meetups
+          </div>
+        </div>
+      </div>
 
-    <!-- HERO -->
-    <section class="hero">
-      <h1>Find your <span>people</span>, closer to home.</h1>
-      <p>Discover local communities, meet people who share your interests, and let FriendMap help turn conversations into real meetups.</p>
-      <p class="hero-mechanism">From discovery to real life — no awkward organising needed.</p>
-      <div class="btns">
-        <a href="https://apps.apple.com/app/id6762519026" class="btn btn-dark">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          Download on App Store
+      <div class="hero-art">
+        <svg class="blob" viewBox="0 0 400 420" preserveAspectRatio="none" aria-hidden="true"><path d="M150 18C250-8 370 30 392 140c22 110-8 240-110 272C180 444 40 410 12 300-16 190 50 44 150 18z" fill="#F7CD4A"/></svg>
+        <svg class="sparkle"><use href="#sparkle"/></svg>
+        <img src="phone-screenshot.png" alt="The FriendMap map showing communities around Carlow" />
+      </div>
+    </div>
+  </section>
+
+  <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30C240 0 480 0 720 26s480 34 720 4V60H0z" fill="#FFF6DD"/></svg>
+
+  <!-- MISSION -->
+  <section class="mission">
+    <div class="wrap mission-grid">
+      <div>
+        <p class="eyebrow">Our mission</p>
+        <h2>Your people are out there. They're just hard to find.</h2>
+        <p>We're more connected online than ever, but finding those same people nearby is still surprisingly hard.</p>
+        <p>FriendMap helps you discover local communities and start real conversations nearby, then takes the awkwardness out of organising, so those conversations naturally turn into real-world meetups.</p>
+        <div class="founder">
+          <img src="founder.png" alt="" />
+          <div><b>Lucas Strelcov</b><span>Founder · Built in Ireland 🇮🇪</span></div>
+        </div>
+      </div>
+      <div class="mission-photo">
+        <svg class="sparkle"><use href="#sparkle"/></svg>
+        <img src="pro/pro-hero.jpg" alt="Friends chatting together in a café" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true" style="background:#FFF6DD"><path d="M0 34C260 64 520 60 760 30S1220-4 1440 24V60H0z" fill="#FFFBF0"/></svg>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="wrap">
+      <div class="how-head">
+        <svg class="sparkle l"><use href="#sparkle"/></svg>
+        <h2>How it works</h2>
+        <svg class="sparkle"><use href="#sparkle"/></svg>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Discover</h3>
+          <p>Browse communities on the map and find people with similar interests.</p>
+          <div class="step-visual">
+            <div class="mini-map">
+              <svg style="left:22%;top:30%"><use href="#pin"/></svg>
+              <svg style="left:66%;top:12%"><use href="#pin"/></svg>
+              <svg style="left:52%;top:56%"><use href="#pin"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Create your own</h3>
+          <p>Start your own community, or join one that's already there.</p>
+          <div class="step-visual">
+            <span class="create-btn">+ Create community</span>
+            <svg class="cursor" viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.5L10 19z" fill="#fff" stroke="#15161D" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Get a meetup idea</h3>
+          <p>Once a community has 3 members, FriendMap suggests a casual meetup.</p>
+          <div class="step-visual">
+            <div class="coffee-card"><span>☕</span>Coffee this weekend?</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h3>Vote together</h3>
+          <p>Pick a day, time and place that works for everyone.</p>
+          <div class="step-visual">
+            <div class="vote"><span class="on">Sat</span><span>Sun</span></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <h3>Meet in real life</h3>
+          <p>Turn online connections into real-life friendships.</p>
+          <div class="step-visual">
+            <svg class="high-five" viewBox="0 0 120 92" aria-hidden="true">
+              <g stroke="#F7CD4A" stroke-width="3" stroke-linecap="round"><line x1="60" y1="2" x2="60" y2="10"/><line x1="46" y1="6" x2="50" y2="13"/><line x1="74" y1="6" x2="70" y2="13"/></g>
+              <circle cx="36" cy="40" r="10" fill="#15161D"/>
+              <path d="M22 92V68a14 14 0 0 1 28 0v24z" fill="#15161D"/>
+              <path d="M44 60L56 22" stroke="#15161D" stroke-width="8" stroke-linecap="round"/>
+              <circle cx="86" cy="42" r="10" fill="#F7CD4A"/>
+              <path d="M72 92V70a14 14 0 0 1 28 0v22z" fill="#F7CD4A"/>
+              <path d="M78 62L64 22" stroke="#F7CD4A" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <p class="swipe-hint">Swipe to see all 5 steps →</p>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <svg class="download-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40C300 0 620 0 900 24s400 30 540 10V60H0z" fill="#F7CD4A"/></svg>
+  <section class="download" id="download">
+    <svg class="sparkle"><use href="#sparkle"/></svg>
+    <div class="wrap">
+      <div class="lockup"><img src="FriendMapLogo.jpeg" alt="" /><span>FriendMap</span></div>
+      <p>Free on iPhone and Android.</p>
+      <div class="stores">
+        <a class="store store--light" href="https://apps.apple.com/app/id6762519026">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <span><small>Download on the</small><b>App Store</b></span>
         </a>
-        <a href="https://play.google.com/store/apps/details?id=com.friendmaphq.friendmap" class="btn btn-outline">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M4.2 2.3c-.3.3-.4.7-.4 1.2v17c0 .5.1.9.4 1.2l9.5-9.7zM14.8 13.1l2.8 2.8-11 6.3c-.4.2-.8.3-1.1.2zM18.9 9.2l2.4 1.4c.9.5.9 1.8 0 2.3l-2.5 1.4-3-3zM5.5 1.6c.3-.1.7 0 1.1.2l11 6.3-2.8 2.8z"/></svg>
-          Get it on Google Play
+        <a class="store store--light" href="https://play.google.com/store/apps/details?id=com.friendmaphq.friendmap">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.2 2.3c-.3.3-.4.7-.4 1.2v17c0 .5.1.9.4 1.2l9.5-9.7zM14.8 13.1l2.8 2.8-11 6.3c-.4.2-.8.3-1.1.2zM18.9 9.2l2.4 1.4c.9.5.9 1.8 0 2.3l-2.5 1.4-3-3zM5.5 1.6c.3-.1.7 0 1.1.2l11 6.3-2.8 2.8z"/></svg>
+          <span><small>Get it on</small><b>Google Play</b></span>
         </a>
       </div>
+    </div>
+  </section>
 
-      <div class="phone-wrap">
-        <img src="phone-screenshot.png" alt="FriendMap app screenshot" />
-      </div>
-    </section>
-
-    <!-- WHY -->
-    <section class="why fade">
-      <div class="why-eyebrow">Why I built this</div>
-      <h2>Your people are out there. They're just hard to find.</h2>
-      <p>We're more connected online than ever — but <strong>finding those same people nearby</strong> is still surprisingly hard.</p>
-      <p>FriendMap helps you discover local communities and start real conversations nearby — then takes the awkwardness out of organising, so those conversations naturally turn into real-world meetups.</p>
-      <div class="founder-row">
-        <img src="founder.png" alt="Lucas Strelcov" />
-        <div>
-          <div class="founder-name">Lucas Strelcov</div>
-          <div class="founder-role">Founder · Built in Ireland 🇮🇪</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section class="how fade">
-      <h2>How it works</h2>
-
-      <!-- Step 1: Discover -->
-      <div class="step-row has-screenshot">
-        <div class="step-main">
-          <div class="step-header">
-            <div class="step-num">1</div>
-            <div class="step-text">
-              <h3>Discover</h3>
-              <p>Browse local communities on a live map and find people nearby who share your interests.</p>
-            </div>
-          </div>
-        </div>
-        <div class="step-screenshot">
-          <img src="Discover.png" alt="FriendMap map showing local communities" />
-        </div>
-      </div>
-
-      <!-- Step 2: Create Your Own -->
-      <div class="step-row has-screenshot flip">
-        <div class="step-main">
-          <div class="step-header">
-            <div class="step-num">2</div>
-            <div class="step-text">
-              <h3>Create Your Own</h3>
-              <p>Can't find a community that interests you? You can create your own by long-pressing anywhere on the map.</p>
-            </div>
-          </div>
-        </div>
-        <div class="step-screenshot">
-          <img src="Create_Your_Own.png" alt="Long-pressing the map to create a community" />
-        </div>
-      </div>
-
-      <!-- Step 3: FriendMap Suggests -->
-      <div class="step-row has-screenshot">
-        <div class="step-main">
-          <div class="step-header">
-            <div class="step-num">3</div>
-            <div class="step-text">
-              <h3>FriendMap Suggests</h3>
-              <p>Once a community reaches 3 members, FriendMap automatically suggests a casual meetup — like coffee, a walk, or something that fits the group. Nobody has to organise a thing.</p>
-            </div>
-          </div>
-        </div>
-        <div class="step-screenshot">
-          <img src="Suggestion_Phase.png" alt="FriendMap meetup suggestion card" />
-        </div>
-      </div>
-
-      <!-- Step 4: Vote Together -->
-      <div class="step-row has-screenshot flip">
-        <div class="step-main">
-          <div class="step-header">
-            <div class="step-num">4</div>
-            <div class="step-text">
-              <h3>Vote Together</h3>
-              <p>Everyone votes on the day, time, and a nearby location. The best option wins — no awkward back and forth, no group chat chaos.</p>
-            </div>
-          </div>
-        </div>
-        <div class="step-screenshot">
-          <img src="Venue_Vote.png" alt="FriendMap venue voting phase" />
-        </div>
-      </div>
-
-      <!-- Step 5: Meet Up -->
-      <div class="step-row has-screenshot">
-        <div class="step-main">
-          <div class="step-header">
-            <div class="step-num">5</div>
-            <div class="step-text">
-              <h3>Meet Up</h3>
-              <p>Once voting is done, FriendMap confirms the meetup automatically — day, time and place, all locked in. Just show up.</p>
-            </div>
-          </div>
-        </div>
-        <div class="step-screenshot">
-          <img src="Completed_Phase.png" alt="FriendMap meetup confirmed" />
-        </div>
-      </div>
-    </section>
-
-    <!-- ON THE DAY -->
-    <section class="story-section fade">
-      <div class="story-inner">
-        <div class="story-text">
-          <h2>On the day of the meetup</h2>
-          <p class="story-sub">Everyone can share their live status so nobody wonders who's coming.</p>
-          <p>Members tap to update whether they haven't left yet, are on the way, or have already arrived — so the whole group knows what to expect before anyone walks in the door.</p>
-        </div>
-        <div class="story-screenshot">
-          <img src="Completed_Today_Phase.png" alt="FriendMap who's on the way status" />
-        </div>
-      </div>
-    </section>
-
-    <!-- AFTER THE MEETUP -->
-    <section class="story-section fade">
-      <div class="story-inner flip">
-        <div class="story-text">
-          <h2>After the meetup</h2>
-          <p class="story-sub">Meetups stay in the community history so everyone can look back and look forward to the next one.</p>
-          <p>The whole journey — suggestion, votes, meetup — lives in the community chat. A new suggestion is automatically posted the following week, so the momentum never stops.</p>
-        </div>
-        <div class="story-screenshot">
-          <img src="Completed_Ended_Phase.png" alt="FriendMap completed meetup" />
-        </div>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
+  <footer>
+    <div class="wrap">
       <div class="footer-links">
-        <a href="pro/">FriendMap Pro for venues</a>
+        <a href="pro/">FriendMap for venues</a>
         <a href="https://friendmaphq.github.io/friendmap-privacy/">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
         <a href="mailto:friendmap.app@proton.me">Contact</a>
       </div>
       <div class="footer-copy">© 2026 FriendMap</div>
-    </footer>
-
-  </div>
-
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade').forEach(el => observer.observe(el));
-  </script>
+    </div>
+  </footer>
 </body>
 </html>
