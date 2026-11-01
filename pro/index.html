@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FriendMap Pro gives cafés, clubs, gyms and studios their own community on FriendMap, where customers meet, chat and come back every week." />
+  <title>FriendMap Pro — For Venues</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!--
+    Where venues buy FriendMap Pro. The form asks the backend
+    (friendmap-backend-clean, controllers/proController.js) for a Stripe
+    Checkout; Stripe's webhook then switches Pro on for that FriendMap
+    account. Someone who tapped "I'm interested" in the app arrives with
+    ?t=<link token>, already tied to their account, so they skip the email.
+    The app itself never links here (app store rules).
+  -->
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --yellow: #F7CD4A; --gold: #B8860B; --ink: #15161D; --ink-mid: #5A5C6E; --border: #ECECF1; }
+    body { font-family: 'Inter', sans-serif; color: var(--ink); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    .wrap { max-width: 600px; margin: 0 auto; padding: 0 28px; }
+
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 24px 28px; max-width: 600px; margin: 0 auto; }
+    .logo { display: flex; align-items: center; gap: 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem; color: var(--ink); text-decoration: none; }
+    .logo img { width: 28px; height: 28px; border-radius: 8px; display: block; }
+    .logo .pro { color: var(--gold); }
+
+    .hero { text-align: center; padding: 40px 0 48px; }
+    .hero h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(2rem, 7vw, 2.6rem); line-height: 1.18; letter-spacing: -0.025em; margin-bottom: 18px; }
+    .hero h1 span { background: var(--yellow); padding: 0 6px; border-radius: 6px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+    .hero p { color: var(--ink-mid); font-size: 1.0625rem; max-width: 440px; margin: 0 auto; }
+    .hero img { width: 100%; border-radius: 24px; margin-top: 36px; display: block; box-shadow: 0 24px 60px rgba(0,0,0,0.12); }
+
+    section { padding: 56px 0; border-top: 1px solid var(--border); }
+    h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.5rem, 5vw, 1.9rem); letter-spacing: -0.02em; margin-bottom: 28px; }
+
+    .feature { display: flex; gap: 16px; padding: 14px 0; }
+    .feature-icon { flex-shrink: 0; width: 44px; height: 44px; border-radius: 14px; background: #FFF6D6; display: flex; align-items: center; justify-content: center; }
+    .feature-icon svg { width: 22px; height: 22px; stroke: var(--gold); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .feature h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.0625rem; margin-bottom: 2px; }
+    .feature p { color: var(--ink-mid); font-size: 0.9375rem; }
+
+    .price-card { border: 1.5px solid var(--border); border-radius: 24px; padding: 32px 24px; text-align: center; }
+    .price { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 2.6rem; letter-spacing: -0.03em; }
+    .price small { font-size: 1rem; font-weight: 700; color: var(--ink-mid); letter-spacing: 0; }
+    .price-note { color: var(--ink-mid); font-size: 0.9375rem; margin-bottom: 24px; }
+
+    form { display: flex; flex-direction: column; gap: 12px; max-width: 320px; margin: 0 auto; }
+    label { font-size: 0.875rem; font-weight: 600; text-align: left; }
+    input[type="email"] { width: 100%; padding: 15px 18px; border-radius: 100px; border: 1.5px solid var(--border); font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; transition: border-color 0.15s ease; }
+    input[type="email"]:focus { border-color: var(--ink); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 15px 20px; border-radius: 100px; border: none; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1rem; text-decoration: none; background: var(--yellow); color: #fff; transition: transform 0.15s ease; }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.6; cursor: default; }
+    .form-hint { color: var(--ink-mid); font-size: 0.825rem; }
+    .linked { background: #FFF6D6; border-radius: 14px; padding: 12px 16px; font-size: 0.9rem; }
+    .msg { font-size: 0.875rem; min-height: 1.2em; color: #c0392b; }
+    [hidden] { display: none !important; }
+
+    .no-account { color: var(--ink-mid); font-size: 0.9375rem; margin-top: 28px; }
+    .no-account a, .small-links a { color: var(--gold); font-weight: 600; text-decoration: none; }
+    .small-links { text-align: center; color: var(--ink-mid); font-size: 0.875rem; margin-top: 24px; }
+
+    footer { padding: 32px 0 48px; border-top: 1px solid var(--border); text-align: center; }
+    .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 16px; flex-wrap: wrap; }
+    .footer-links a { color: var(--ink-mid); text-decoration: none; font-size: 0.85rem; }
+    .footer-copy { color: var(--ink-mid); opacity: 0.6; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../" class="logo"><img src="../FriendMapLogo.jpeg" alt="" />FriendMap <span class="pro">Pro</span></a>
+  </nav>
+
+  <div class="wrap">
+    <section class="hero" style="border-top:none">
+      <h1>Turn your venue into a <span>social hub.</span></h1>
+      <p>FriendMap Pro gives cafés, clubs, gyms and studios their own community on FriendMap, where your customers meet, chat and come back every week.</p>
+      <img src="pro-hero.jpg" alt="People chatting together in a café" />
+    </section>
+
+    <section>
+      <h2>What you get</h2>
+      <div class="feature">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div>
+        <div><h3>Stand out on the map</h3><p>Your venue gets its own Pro pin, so people nearby spot you easily.</p></div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+        <div><h3>A meetup every week</h3><p>Pick a day and time once. FriendMap creates the same meetup every week, and people join in one tap.</p></div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15 9a4 4 0 0 1 0 6M18 6a8 8 0 0 1 0 12"/></svg></div>
+        <div><h3>Talk directly to your community</h3><p>Post updates straight into your community's chat, so everyone who's joined hears your news.</p></div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h3v3"/></svg></div>
+        <div><h3>Bring customers in</h3><p>Print a QR poster, table tent or counter card straight from the app. Scan, join, done.</p></div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+        <div><h3>See your community grow</h3><p>A simple look at your members, views and how many are going to each meetup.</p></div>
+      </div>
+    </section>
+
+    <section id="get">
+      <div class="price-card">
+        <div class="price">€49 <small>/ month</small></div>
+        <p class="price-note">Cancel any time.</p>
+
+        <form id="proForm" novalidate>
+          <div id="linkedNote" class="linked" hidden>This page is linked to your FriendMap account.</div>
+          <div id="emailField">
+            <label for="email">Your FriendMap account email</label>
+            <input type="email" id="email" placeholder="you@email.com" autocomplete="email" required />
+          </div>
+          <button type="submit" class="btn" id="submitBtn">Get FriendMap Pro</button>
+          <div class="form-hint">You'll pay securely with Stripe. Pro switches on in the app straight away.</div>
+          <div class="msg" id="msg" role="alert"></div>
+        </form>
+
+        <p class="no-account">No FriendMap account yet? Download the app (<a href="https://apps.apple.com/app/id6762519026">App Store</a> or <a href="https://play.google.com/store/apps/details?id=com.friendmaphq.friendmap">Google Play</a>), sign up, then come back here.</p>
+      </div>
+
+      <p class="small-links">
+        Already on Pro? <a id="manageLink" href="mailto:friendmap.app@proton.me?subject=FriendMap%20Pro%20subscription">Manage or cancel your subscription</a><br />
+        Questions? <a href="mailto:friendmap.app@proton.me">friendmap.app@proton.me</a>
+      </p>
+    </section>
+
+    <footer>
+      <div class="footer-links">
+        <a href="../">FriendMap</a>
+        <a href="https://friendmaphq.github.io/friendmap-privacy/">Privacy Policy</a>
+        <a href="mailto:friendmap.app@proton.me">Contact</a>
+      </div>
+      <div class="footer-copy">© 2026 FriendMap</div>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var API_URL = 'https://friendmap-backend.onrender.com/pro/checkout';
+      // Stripe's customer portal login link (Stripe Dashboard → Settings →
+      // Billing → Customer portal). Until it's set, the link emails us.
+      var PORTAL_URL = '';
+
+      var form = document.getElementById('proForm');
+      var emailField = document.getElementById('emailField');
+      var emailInput = document.getElementById('email');
+      var linkedNote = document.getElementById('linkedNote');
+      var btn = document.getElementById('submitBtn');
+      var msg = document.getElementById('msg');
+      if (PORTAL_URL) document.getElementById('manageLink').href = PORTAL_URL;
+
+      var token = new URLSearchParams(location.search).get('t') || '';
+      function showEmailField() {
+        token = '';
+        linkedNote.hidden = true;
+        emailField.hidden = false;
+      }
+      if (token) {
+        linkedNote.hidden = false;
+        emailField.hidden = true;
+      }
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        msg.textContent = '';
+        var email = emailInput.value.trim();
+        if (!token && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          msg.textContent = 'Please enter the email you log in to FriendMap with.';
+          return;
+        }
+
+        btn.disabled = true;
+        // The backend can take a moment to wake up
+        btn.textContent = 'One moment…';
+        try {
+          var res = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(token ? { token: token } : { email: email })
+          });
+          var data = await res.json().catch(function () { return {}; });
+          if (res.ok && data.url) {
+            location.href = data.url;
+            return;
+          }
+          if (data.expired) showEmailField();
+          msg.textContent = data.message || 'Something went wrong. Please try again.';
+        } catch (err) {
+          msg.textContent = 'Network error. Please try again, or email friendmap.app@proton.me.';
+        }
+        btn.disabled = false;
+        btn.textContent = 'Get FriendMap Pro';
+      });
+    })();
+  </script>
+</body>
+</html>

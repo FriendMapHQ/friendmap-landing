@@ -42,6 +42,12 @@
       text-decoration: none;
     }
     .logo img { width: 28px; height: 28px; border-radius: 8px; display: block; }
+    .nav-link {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700; font-size: 0.875rem; color: var(--ink-mid);
+      text-decoration: none;
+    }
+    .nav-link:hover { color: var(--ink); }
 
     /* HERO */
     .hero {
@@ -232,55 +238,6 @@
       display: block;
     }
 
-    /* ANDROID */
-    .android {
-      padding: 64px 0;
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-    .android h2 {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 800;
-      font-size: clamp(1.3rem, 4.5vw, 1.6rem);
-      letter-spacing: -0.02em;
-      margin-bottom: 12px;
-    }
-    .android p {
-      color: var(--ink-mid); font-size: 0.9375rem;
-      max-width: 380px; margin: 0 auto 24px;
-    }
-    .tester-form {
-      display: flex; flex-direction: column; gap: 12px;
-      max-width: 300px; margin: 0 auto;
-    }
-    .tester-form input[type="email"] {
-      width: 100%;
-      padding: 15px 18px;
-      border-radius: 100px;
-      border: 1.5px solid var(--border);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.15s ease;
-    }
-    .tester-form input[type="email"]:focus { border-color: var(--ink); }
-    .tester-form .btn { cursor: pointer; }
-    .tester-form .btn:disabled { opacity: 0.5; cursor: default; }
-    .tester-msg {
-      font-size: 0.85rem;
-      margin-top: 4px;
-      min-height: 1.2em;
-    }
-    .tester-msg.success { color: #1a7f37; }
-    .tester-msg.error { color: #c0392b; }
-    .android-divider {
-      color: var(--ink-mid); opacity: 0.5; font-size: 0.825rem;
-      margin: 18px 0;
-    }
-
-    /* Honeypot — hidden from real users, bots fill it in */
-    .hp-field { display: none !important; }
-
     /* FOOTER */
     footer {
       padding: 32px 0 48px;
@@ -353,6 +310,7 @@
     <a href="#" class="logo">
       <img src="FriendMapLogo.jpeg" alt="FriendMap" />FriendMap
     </a>
+    <a href="pro/" class="nav-link">For venues</a>
   </nav>
 
   <div class="wrap">
@@ -367,7 +325,10 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
           Download on App Store
         </a>
-        <a href="#android" class="btn btn-outline">Join Android Beta</a>
+        <a href="https://play.google.com/store/apps/details?id=com.friendmaphq.friendmap" class="btn btn-outline">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M4.2 2.3c-.3.3-.4.7-.4 1.2v17c0 .5.1.9.4 1.2l9.5-9.7zM14.8 13.1l2.8 2.8-11 6.3c-.4.2-.8.3-1.1.2zM18.9 9.2l2.4 1.4c.9.5.9 1.8 0 2.3l-2.5 1.4-3-3zM5.5 1.6c.3-.1.7 0 1.1.2l11 6.3-2.8 2.8z"/></svg>
+          Get it on Google Play
+        </a>
       </div>
 
       <div class="phone-wrap">
@@ -503,143 +464,10 @@
       </div>
     </section>
 
-    <!-- ANDROID -->
-    <section class="android fade" id="android">
-      <h2>Help test FriendMap on Android</h2>
-      <p>We're in closed testing and looking for early testers to help shape the app before launch. Drop your email and we'll add you to the tester list.</p>
-      <form class="tester-form" id="testerForm" novalidate>
-
-        <!-- Honeypot: hidden from real users, bots fill it in and get silently rejected -->
-        <input class="hp-field" type="text" id="hp_name" name="hp_name" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-        <input type="email" id="testerEmail" placeholder="you@email.com" required autocomplete="email" />
-        <button type="submit" class="btn btn-dark" id="testerSubmitBtn">Join the Beta</button>
-        <div class="tester-msg" id="testerMsg"></div>
-      </form>
-      <div class="android-divider">or</div>
-      <div class="btns">
-        <a href="mailto:friendmap.app@proton.me" class="btn btn-outline">Contact via Email</a>
-      </div>
-    </section>
-
-    <script>
-      (function () {
-        const form = document.getElementById('testerForm');
-        const emailInput = document.getElementById('testerEmail');
-        const honeypot = document.getElementById('hp_name');
-        const submitBtn = document.getElementById('testerSubmitBtn');
-        const msg = document.getElementById('testerMsg');
-        const API_URL = 'https://friendmap-backend.onrender.com/tester-signup';
-
-        const RATE_LIMIT_MAX = 3;
-        const RATE_LIMIT_WINDOW_MS = 60 * 1000;
-
-        function isRateLimited() {
-          const now = Date.now();
-          let attempts = JSON.parse(sessionStorage.getItem('fm_attempts') || '[]');
-          attempts = attempts.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
-          if (attempts.length >= RATE_LIMIT_MAX) return true;
-          attempts.push(now);
-          sessionStorage.setItem('fm_attempts', JSON.stringify(attempts));
-          return false;
-        }
-
-        const BLOCKED_DOMAINS = new Set([
-          'mailinator.com', 'tempmail.com', 'guerrillamail.com', 'throwam.com',
-          'sharklasers.com', 'guerrillamailblock.com', 'grr.la', 'guerrillamail.info',
-          'yopmail.com', 'trashmail.com', 'dispostable.com', 'maildrop.cc',
-          'fakeinbox.com', 'spamgourmet.com', 'mytemp.email', 'temp-mail.org',
-          'throwaway.email', 'spamgourmet.net', 'mailnull.com', 'spamex.com',
-          'mailnesia.com', 'discard.email', 'spam4.me', 'trashmail.at',
-          'trashmail.io', 'tempinbox.com', 'getairmail.com', 'filzmail.com',
-          'spamhereplease.com', 'tempr.email',
-        ]);
-
-        function isValidEmail(email) {
-          if (!email) return false;
-          const parts = email.split('@');
-          if (parts.length !== 2) return false;
-          const local = parts[0];
-          const domain = parts[1].toLowerCase();
-          if (!domain.includes('.')) return false;
-          if (/\.{2,}/.test(email)) return false;
-          if (local.startsWith('.') || local.endsWith('.')) return false;
-          if ((local.match(/\./g) || []).length > 3) return false;
-          if (local.length < 2) return false;
-          if (BLOCKED_DOMAINS.has(domain)) return false;
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-          if (!emailRegex.test(email)) return false;
-          return true;
-        }
-
-        const pageLoadTime = Date.now();
-        const MIN_FILL_TIME_MS = 2000;
-
-        form.addEventListener('submit', async function (e) {
-          e.preventDefault();
-          const email = emailInput.value.trim();
-          if (!email) return;
-
-          if (honeypot && honeypot.value) {
-            msg.textContent = "Thanks! We'll add you as a tester shortly.";
-            msg.className = 'tester-msg success';
-            form.reset();
-            return;
-          }
-
-          if (Date.now() - pageLoadTime < MIN_FILL_TIME_MS) {
-            msg.textContent = "Please try again.";
-            msg.className = 'tester-msg error';
-            return;
-          }
-
-          if (isRateLimited()) {
-            msg.textContent = 'Too many attempts. Please wait a minute before trying again.';
-            msg.className = 'tester-msg error';
-            return;
-          }
-
-          if (!isValidEmail(email)) {
-            msg.textContent = 'Please enter a valid email address.';
-            msg.className = 'tester-msg error';
-            return;
-          }
-
-          submitBtn.disabled = true;
-          submitBtn.textContent = 'Sending...';
-          msg.textContent = '';
-          msg.className = 'tester-msg';
-
-          try {
-            const res = await fetch(API_URL, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email })
-            });
-            const data = await res.json();
-
-            if (res.ok) {
-              msg.textContent = data.message || "Thanks! We'll add you as a tester shortly.";
-              msg.classList.add('success');
-              form.reset();
-            } else {
-              msg.textContent = data.message || 'Something went wrong. Please try again.';
-              msg.classList.add('error');
-            }
-          } catch (err) {
-            msg.textContent = 'Network error. Please try again or email us directly.';
-            msg.classList.add('error');
-          } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Join the Beta';
-          }
-        });
-      })();
-    </script>
-
     <!-- FOOTER -->
     <footer>
       <div class="footer-links">
+        <a href="pro/">FriendMap Pro for venues</a>
         <a href="https://friendmaphq.github.io/friendmap-privacy/">Privacy Policy</a>
         <a href="#">Terms of Service</a>
         <a href="mailto:friendmap.app@proton.me">Contact</a>

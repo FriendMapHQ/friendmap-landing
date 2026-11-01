@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Welcome to FriendMap Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- Where Stripe Checkout sends someone after paying for Pro (pro/index.html) -->
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --yellow: #F7CD4A; --gold: #B8860B; --ink: #15161D; --ink-mid: #5A5C6E; --border: #ECECF1; }
+    body { font-family: 'Inter', sans-serif; color: var(--ink); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh; display: flex; flex-direction: column; }
+    .band { background: var(--yellow); padding: 22px 16px; text-align: center; }
+    .band span { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 24px; color: #fff; }
+    main { flex: 1; max-width: 460px; width: 100%; margin: 0 auto; padding: 40px 24px; text-align: center; }
+    .logo { width: 84px; height: 84px; border-radius: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+    h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; line-height: 1.25; margin-top: 22px; }
+    .lead { color: var(--ink-mid); margin-top: 10px; }
+    ol { text-align: left; margin: 28px 0 0; padding: 20px 20px 20px 40px; border: 1.5px solid var(--border); border-radius: 20px; }
+    li { padding: 6px 0; }
+    li b { font-weight: 600; }
+    .note { color: var(--ink-mid); font-size: 0.9rem; margin-top: 24px; }
+    .note a { color: var(--gold); font-weight: 600; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="band"><span>FriendMap Pro</span></div>
+  <main>
+    <img class="logo" src="../../FriendMapLogo.jpeg" alt="" />
+    <h1>You&rsquo;re on FriendMap Pro 🎉</h1>
+    <p class="lead">Thank you! Pro is now on for your FriendMap account. We&rsquo;ve emailed you the details too.</p>
+
+    <ol>
+      <li>Open <b>FriendMap</b> on your phone.</li>
+      <li>Long-press the map where your venue is, and choose <b>⭐ Venue</b>.</li>
+      <li>Add your address and your weekly meetup, and you&rsquo;re live.</li>
+    </ol>
+
+    <p class="note">Don&rsquo;t see the Venue option? Close the app fully and open it again.<br />Your receipt comes from Stripe. Questions? <a href="mailto:friendmap.app@proton.me">friendmap.app@proton.me</a></p>
+  </main>
+</body>
+</html>
