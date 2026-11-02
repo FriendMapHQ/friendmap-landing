@@ -55,7 +55,7 @@
     .steps { counter-reset: step; }
     .steps b { font-weight: 600; }
     .next-phone { display: none; position: relative; flex: 0 0 230px; align-self: stretch; border-left: 1.5px solid var(--border); padding-left: 28px; }
-    .next-phone svg.phone { width: 100%; height: 100%; max-height: 240px; }
+    .next-phone svg.phone { position: relative; top: -18px; width: 100%; height: 100%; max-height: 240px; }
 
     .notes { text-align: center; color: var(--ink-mid); font-size: 0.95rem; margin: 26px auto 0; padding: 0 8px; }
     .notes p + p { margin-top: 4px; }
@@ -147,7 +147,7 @@
           </ol>
         </div>
         <div class="next-phone" aria-hidden="true">
-          <svg class="phone" viewBox="0 0 200 220">
+          <svg class="phone" viewBox="0 -6 200 250">
             <g transform="rotate(18 110 120)">
               <rect x="58" y="10" width="112" height="210" rx="20" fill="#15161D"/>
               <rect x="65" y="17" width="98" height="196" rx="14" fill="#E8F2DF"/>
