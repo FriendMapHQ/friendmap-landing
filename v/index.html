@@ -69,6 +69,7 @@
     .button svg { width: 22px; height: 22px; }
     .new-here { color: var(--ink-mid); font-size: 0.95rem; margin-top: 12px; }
     .new-here a { color: var(--ink); font-weight: 700; text-decoration: none; }
+    .no-app { margin-top: 14px; font-weight: 600; font-size: 0.95rem; }
 
     /* WHAT YOU CAN DO */
     .perks { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 40px; text-align: center; }
@@ -148,6 +149,7 @@
 
     <a class="button" id="open" href="friendmap://map">Join the community<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     <p class="new-here">New to FriendMap? <a href="#get">Download the app</a> first.</p>
+    <a class="store no-app" id="noApp" href="https://apps.apple.com/app/id6762519026" hidden>Don&rsquo;t have FriendMap? Get it on the App Store</a>
 
     <ul class="perks">
       <li>
@@ -203,19 +205,17 @@
         open.href = appLink;
       }
 
-      // iPhones have no "open the app, or else the store" link like Android's,
-      // so try the app and, if the page is still showing shortly after (the
-      // app didn't open), go to the App Store
+      // iPhones have no "open the app, or else the store" link like Android's.
+      // If the page is still showing shortly after the tap, the app probably
+      // isn't installed, so point to the App Store. Not a redirect: Safari
+      // may still be asking "Open in FriendMap?", and that would cut it off.
       if (isIOS) {
-        open.addEventListener('click', function (e) {
-          e.preventDefault();
+        open.addEventListener('click', function () {
           var timer = setTimeout(function () {
-            if (!document.hidden) location.href = document.getElementById('ios').href;
-          }, 1800);
-          var cancel = function () { clearTimeout(timer); };
-          window.addEventListener('pagehide', cancel, { once: true });
-          document.addEventListener('visibilitychange', function () { if (document.hidden) cancel(); }, { once: true });
-          location.href = appLink;
+            if (!document.hidden) document.getElementById('noApp').hidden = false;
+          }, 1500);
+          window.addEventListener('pagehide', function () { clearTimeout(timer); }, { once: true });
+          document.addEventListener('visibilitychange', function () { if (document.hidden) clearTimeout(timer); }, { once: true });
         });
       }
 
