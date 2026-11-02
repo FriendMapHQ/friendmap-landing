@@ -72,16 +72,12 @@
     .store svg { width: 26px; height: 26px; flex-shrink: 0; }
     .store small { display: block; font-size: 0.7rem; font-weight: 500; line-height: 1.2; }
     .store b { display: block; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem; font-weight: 800; line-height: 1.15; }
-    .group { position: relative; width: 150px; height: 96px; }
-    .group svg.people { width: 100%; height: 100%; }
-    .group .sparkle { color: var(--ink); width: 26px; height: 40px; right: -14px; top: -26px; transform: rotate(-30deg); }
 
     @media (min-width: 900px) {
       .wrap { padding: 0 40px; }
       .corner { display: block; width: 150px; height: 110px; }
       .next { padding: 30px 32px 30px 60px; }
       .next-phone, .next h2 .sparkle { display: block; }
-      .band .wrap { flex-direction: row; justify-content: center; gap: 80px; }
     }
   </style>
 </head>
@@ -182,19 +178,6 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.2 2.3c-.3.3-.4.7-.4 1.2v17c0 .5.1.9.4 1.2l9.5-9.7zM14.8 13.1l2.8 2.8-11 6.3c-.4.2-.8.3-1.1.2zM18.9 9.2l2.4 1.4c.9.5.9 1.8 0 2.3l-2.5 1.4-3-3zM5.5 1.6c.3-.1.7 0 1.1.2l11 6.3-2.8 2.8z"/></svg>
           <span><small>Get it on</small><b>Google Play</b></span>
         </a>
-      </div>
-      <div class="group" aria-hidden="true">
-        <svg class="people" viewBox="0 0 150 96">
-          <g fill="#15161D">
-            <circle cx="34" cy="30" r="14"/><circle cx="75" cy="22" r="16"/><circle cx="116" cy="30" r="14"/>
-            <path d="M8 96V74c0-14 12-24 26-24s26 10 26 24v22z"/>
-            <path d="M47 96V68c0-16 12-28 28-28s28 12 28 28v28z"/>
-            <path d="M90 96V74c0-14 12-24 26-24s26 10 26 24v22z"/>
-          </g>
-          <!-- Arms round each other's shoulders -->
-          <path d="M14 70C36 58 56 58 75 62S114 58 136 70" fill="none" stroke="#F7CD4A" stroke-width="5" stroke-linecap="round"/>
-        </svg>
-        <svg class="sparkle"><use href="#sparkle"/></svg>
       </div>
     </div>
   </footer>
