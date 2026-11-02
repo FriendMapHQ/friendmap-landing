@@ -81,7 +81,8 @@
     .price-card { background: #fff; border-radius: 28px; padding: 30px 24px; width: 100%; max-width: 420px; text-align: center; box-shadow: 0 20px 50px rgba(120,90,0,0.18); }
     .price { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 2.6rem; letter-spacing: -0.03em; line-height: 1.1; }
     .price small { font-size: 1rem; font-weight: 700; color: var(--ink-mid); letter-spacing: 0; }
-    .price-note { color: var(--ink-mid); font-size: 0.95rem; margin: 4px 0 22px; }
+    .trial { display: inline-block; background: #E8F5E9; color: #2E7D32; font-weight: 700; font-size: 0.95rem; padding: 5px 14px; border-radius: 999px; margin-top: 10px; }
+    .price-note { color: var(--ink-mid); font-size: 0.9rem; margin: 6px 0 22px; }
     form { display: flex; flex-direction: column; gap: 12px; }
     label { display: block; font-size: 0.875rem; font-weight: 600; text-align: left; margin-bottom: 6px; padding-left: 6px; }
     input[type="email"] { width: 100%; padding: 15px 18px; border-radius: 999px; border: 1.5px solid #E6DFC8; font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; background: var(--cream); transition: border-color 0.15s ease; }
@@ -211,7 +212,8 @@
 
       <div class="price-card">
         <div class="price">€49 <small>/ month</small></div>
-        <p class="price-note">Cancel any time.</p>
+        <p class="trial">Your first month is free</p>
+        <p class="price-note">For new venues. Cancel any time.</p>
 
         <form id="proForm" novalidate>
           <div id="linkedNote" class="linked" hidden>This page is linked to your FriendMap account.</div>
@@ -220,7 +222,7 @@
             <input type="email" id="email" placeholder="you@email.com" autocomplete="email" required />
           </div>
           <button type="submit" class="btn" id="submitBtn"><svg><use href="#crown"/></svg><span id="btnText">Get FriendMap Pro</span></button>
-          <div class="form-hint">You'll pay securely with Stripe. Pro switches on in the app straight away.</div>
+          <div class="form-hint">You'll add your card securely with Stripe, and nothing is charged during your free month. Pro switches on in the app straight away.</div>
           <div class="msg" id="msg" role="alert"></div>
         </form>
 
