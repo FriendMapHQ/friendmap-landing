@@ -44,7 +44,6 @@
     .underlined svg { position: absolute; left: 4%; bottom: -0.16em; width: 92%; height: 0.26em; }
     .thanks { font-size: 1.25rem; font-weight: 600; margin-top: 22px; }
     .lead { color: var(--ink-mid); font-size: 1.05rem; margin-top: 4px; }
-    .side-sparkle { display: none; }
 
     /* WHAT'S NEXT */
     .next { position: relative; text-align: left; display: flex; align-items: center; gap: 28px; background: #fff; border: 1.5px solid var(--border); border-radius: 28px; padding: 28px 24px; max-width: 860px; margin: 32px auto 0; box-shadow: 0 20px 50px rgba(120,90,0,0.08); }
@@ -83,9 +82,6 @@
     @media (min-width: 900px) {
       .wrap { padding: 0 40px; }
       .corner { display: block; width: 150px; height: 110px; }
-      .side-sparkle { display: block; position: absolute; width: 46px; height: 74px; color: var(--yellow); }
-      .side-sparkle.l { left: 4%; top: 260px; transform: scaleX(-1) rotate(-10deg); }
-      .side-sparkle.r { right: 4%; top: 40px; transform: rotate(-35deg); }
       .next { padding: 30px 32px 30px 60px; }
       .next-phone, .next h2 .sparkle { display: block; }
       .band .wrap { flex-direction: row; justify-content: space-between; }
@@ -113,8 +109,6 @@
   </svg>
 
   <svg class="corner" viewBox="0 0 180 130" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H180C160 40 120 80 70 104C44 116 20 124 0 130Z" fill="#F7CD4A"/></svg>
-  <svg class="side-sparkle l" aria-hidden="true"><use href="#sparkle"/></svg>
-  <svg class="side-sparkle r" aria-hidden="true"><use href="#sparkle"/></svg>
 
   <nav>
     <div class="wrap">
