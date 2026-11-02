@@ -67,6 +67,15 @@
     .feature h3 { font-size: 1.1rem; font-weight: 800; line-height: 1.25; }
     .feature p { color: var(--ink-mid); font-size: 0.95rem; line-height: 1.45; margin-top: 3px; }
 
+    /* HOW IT WORKS */
+    .how { padding: 8px 0 64px; text-align: center; scroll-margin-top: 20px; }
+    .section-title { font-size: clamp(1.9rem, 6vw, 2.5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
+    .how-steps { list-style: none; counter-reset: step; display: flex; flex-direction: column; gap: 14px; max-width: 980px; margin: 30px auto 0; }
+    .how-steps li { counter-increment: step; flex: 1; background: #fff; border: 1.5px solid var(--border); border-radius: 22px; padding: 24px 22px 22px; text-align: left; }
+    .how-steps li::before { content: counter(step); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--yellow); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; margin-bottom: 12px; }
+    .how-steps h3 { font-size: 1.1rem; font-weight: 800; line-height: 1.25; }
+    .how-steps p { color: var(--ink-mid); font-size: 0.95rem; line-height: 1.45; margin-top: 4px; }
+
     /* GET PRO */
     .band-wave { display: block; width: 100%; height: 60px; }
     .get { background: var(--yellow); padding: 36px 0 64px; scroll-margin-top: 20px; }
@@ -95,6 +104,18 @@
     .small-links { text-align: center; font-size: 0.875rem; margin-top: 4px; }
     .small-links a { color: var(--ink); text-decoration: underline; }
 
+    /* FAQ */
+    .faq { padding: 64px 0 24px; }
+    .faq .section-title { text-align: center; }
+    .faq-list { max-width: 720px; margin: 26px auto 0; display: flex; flex-direction: column; gap: 10px; }
+    .faq details { background: var(--cream-deep); border-radius: 18px; padding: 0 20px; }
+    .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 17px 0; font-weight: 600; font-size: 1.02rem; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: '+'; flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--yellow); display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.15rem; line-height: 1; }
+    .faq details[open] summary::after { content: '−'; }
+    .faq details p { color: var(--ink-mid); font-size: 0.95rem; line-height: 1.55; padding: 0 0 18px; }
+    .faq details a { color: var(--gold); font-weight: 600; text-decoration: none; }
+
     /* FOOTER (same as the home page) */
     footer { padding: 28px 0 40px; text-align: center; }
     .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 0; margin-bottom: 10px; }
@@ -119,6 +140,7 @@
       .get-grid { flex-direction: row; justify-content: space-between; align-items: center; }
       .get-line { text-align: left; flex: 1; max-width: 500px; }
       .get-line svg { margin: 8px 0 0; }
+      .how-steps { flex-direction: row; }
     }
   </style>
 </head>
@@ -138,7 +160,7 @@
     <div class="wrap">
       <a href="../" class="logo"><img src="../FriendMapLogo.jpeg" alt="" /><span>FriendMap</span></a>
       <div class="nav-links">
-        <a href="../#how">How it works</a>
+        <a href="#how">How it works</a>
         <a href="#get" class="nav-btn">Get Pro</a>
       </div>
     </div>
@@ -196,6 +218,18 @@
     </div>
   </section>
 
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="wrap">
+      <h2 class="section-title">How it works</h2>
+      <ol class="how-steps">
+        <li><h3>Get FriendMap</h3><p>Download the app and make a free account, if you don't have one already.</p></li>
+        <li><h3>Sign up for Pro here</h3><p>Use the same email as your FriendMap account. Your first month is free.</p></li>
+        <li><h3>Set up your venue</h3><p>Add your venue and weekly meetup in the app, then print your QR poster for the counter.</p></li>
+      </ol>
+    </div>
+  </section>
+
   <!-- GET PRO -->
   <svg class="band-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34C220 0 520 4 760 28s460 30 680 2V60H0z" fill="#F7CD4A"/></svg>
   <section class="get" id="get">
@@ -227,6 +261,21 @@
     <p class="small-links wrap" style="margin-top:28px">
       Already on Pro? <a id="manageLink" href="mailto:friendmap.app@proton.me?subject=FriendMap%20Pro%20subscription">Manage or cancel your subscription</a> · Questions? <a href="mailto:friendmap.app@proton.me">friendmap.app@proton.me</a>
     </p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="wrap">
+      <h2 class="section-title">Questions</h2>
+      <div class="faq-list">
+        <details><summary>Does it cost my customers anything?</summary><p>No. FriendMap is free for everyone who joins your community. Only the venue pays for Pro.</p></details>
+        <details><summary>Is there a contract?</summary><p>No. It's monthly, and you can cancel any time.</p></details>
+        <details><summary>When am I charged?</summary><p>Nothing during your free month. After that it's €49 each month. If you cancel before the free month ends, you're never charged.</p></details>
+        <details><summary>What happens if I cancel?</summary><p>Pro stays on until the end of the month you've paid for, then switches off. Your community and its members stay; it just goes back to being a normal community.</p></details>
+        <details><summary>Can I have more than one venue?</summary><p>Each Pro account runs one venue.</p></details>
+        <details><summary>I don't have a FriendMap account yet</summary><p>Download FriendMap from the <a href="https://apps.apple.com/app/id6762519026">App Store</a> or <a href="https://play.google.com/store/apps/details?id=com.friendmaphq.friendmap">Google Play</a>, sign up, then come back here and use the same email.</p></details>
+      </div>
+    </div>
   </section>
 
   <footer>
