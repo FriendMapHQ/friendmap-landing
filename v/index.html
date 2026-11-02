@@ -203,6 +203,22 @@
         open.href = appLink;
       }
 
+      // iPhones have no "open the app, or else the store" link like Android's,
+      // so try the app and, if the page is still showing shortly after (the
+      // app didn't open), go to the App Store
+      if (isIOS) {
+        open.addEventListener('click', function (e) {
+          e.preventDefault();
+          var timer = setTimeout(function () {
+            if (!document.hidden) location.href = document.getElementById('ios').href;
+          }, 1800);
+          var cancel = function () { clearTimeout(timer); };
+          window.addEventListener('pagehide', cancel, { once: true });
+          document.addEventListener('visibilitychange', function () { if (document.hidden) cancel(); }, { once: true });
+          location.href = appLink;
+        });
+      }
+
       // Only the store for this phone (both on a computer)
       if (isIOS) document.getElementById('android').hidden = true;
       if (isAndroid) document.getElementById('ios').hidden = true;
