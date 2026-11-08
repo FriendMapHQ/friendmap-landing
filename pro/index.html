@@ -278,6 +278,9 @@
           </div>
           <!-- Honeypot: hidden from people, bots fill it in and are turned away -->
           <div hidden aria-hidden="true"><label for="website">Website</label><input type="text" id="website" name="website" tabindex="-1" autocomplete="off" /></div>
+          <!-- Cloudflare Turnstile: the "I'm not a robot" check. Usually passes on its own;
+               the server checks the result (TURNSTILE_SECRET_KEY on Render) -->
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAF41hZqEG4VXB9UJ" data-theme="light" data-size="flexible" style="margin-bottom:12px"></div>
           <button type="submit" class="btn" id="submitBtn"><svg><use href="#crown"/></svg><span id="btnText">Get FriendMap Pro</span></button>
           <div class="form-hint">You'll add your card securely with Stripe, and nothing is charged during your free month. Pro switches on in the app straight away. By continuing, you agree to the <a href="terms/">Pro Terms</a>.</div>
           <div class="msg" id="msg" role="alert"></div>
@@ -346,6 +349,12 @@
         emailField.hidden = true;
       }
 
+      // The answer from the robot check, or '' if it hasn't finished (or was blocked)
+      function robotCheck() {
+        var field = form.querySelector('[name="cf-turnstile-response"]');
+        return field ? field.value : '';
+      }
+
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
         msg.textContent = '';
@@ -362,7 +371,10 @@
           var res = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(Object.assign(token ? { token: token } : { email: email }, { website: document.getElementById('website').value }))
+            body: JSON.stringify(Object.assign(token ? { token: token } : { email: email }, {
+              website: document.getElementById('website').value,
+              turnstile: robotCheck()
+            }))
           });
           var data = await res.json().catch(function () { return {}; });
           if (res.ok && data.url) {
@@ -374,10 +386,13 @@
         } catch (err) {
           msg.textContent = 'Network error. Please try again, or email friendmap.app@proton.me.';
         }
+        // Each check can only be used once, so get a fresh one for the next try
+        if (window.turnstile) window.turnstile.reset();
         btn.disabled = false;
         btnText.textContent = 'Get FriendMap Pro';
       });
     })();
   </script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </body>
 </html>
